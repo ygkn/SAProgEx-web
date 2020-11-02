@@ -2,15 +2,27 @@ import { NextPage } from 'next';
 import { FormEvent, useCallback, useState } from 'react';
 
 import { Layout, Paragraph, SEO } from '../components';
-import { useInfiniteQueryAPI } from '../hooks/API';
+import { useInfiniteQueryAPI, useQueryAPI } from '../hooks/API';
 import { useInfiniteScroll } from '../hooks/infinite-scroll';
 
 const IndexPage: NextPage = () => {
   const [inputtingQuery, setInputtingQuery] = useState<string>('');
   const [submittedQuery, setSubmittedQuery] = useState<undefined | string>();
+
+  const { data: suggestions } = useQueryAPI(
+    'books/suggestions',
+    {
+      query: inputtingQuery,
+    },
+    { enabled: inputtingQuery !== '' }
   );
 
-  const { isLoading, data, error, fetchMore } = useInfiniteQueryAPI(
+  const {
+    isLoading: isLoadingBookList,
+    data: bookList,
+    error: bookListError,
+    fetchMore: fetchMoreBookList,
+  } = useInfiniteQueryAPI(
     'books',
     { query: submittedQuery },
     {
@@ -20,7 +32,9 @@ const IndexPage: NextPage = () => {
     }
   );
 
-  const { loaderRef } = useInfiniteScroll<HTMLParagraphElement>(fetchMore);
+  const { loaderRef } = useInfiniteScroll<HTMLParagraphElement>(
+    fetchMoreBookList
+  );
 
   const handleChangeQuery = useCallback(
     (event: FormEvent<HTMLInputElement>) =>
@@ -34,29 +48,37 @@ const IndexPage: NextPage = () => {
     setSubmittedQuery(inputtingQuery);
   };
 
-  const totalCount = data?.[0] && data[0].total;
+  const totalCount = bookList?.[0] && bookList[0].total;
 
   return (
     <>
       <SEO title="" description="蔵書を検索" path="/" />
       <Layout>
-        <form className="flex" onSubmit={handleSubmit}>
-          <input
-            type="search"
-            name="query"
-            className="flex-grow px-4 py-2 rounded-sm"
-            onChange={handleChangeQuery}
-            value={inputtingQuery}
-            placeholder="検索キーワードを入力"
-            autoComplete="off"
-          />
+        <form className="relative" onSubmit={handleSubmit}>
+          <div className="flex">
+            <input
+              type="search"
+              name="query"
+              className="flex-grow px-4 py-2 rounded-sm"
+              onChange={handleChangeQuery}
+              value={inputtingQuery}
+              placeholder="検索キーワードを入力"
+              list="search-suggestions"
+              autoComplete="off"
+            />
+          </div>
+          <datalist id="search-suggestions">
+            {suggestions?.map((item) => (
+              <option key={item} value={item} />
+            ))}
+          </datalist>
         </form>
 
-        {error && (
+        {bookListError && (
           <section>
             <Paragraph>エラーが発生しました</Paragraph>
             <Paragraph>
-              <b>{error.message}</b>
+              <b>{bookListError.message}</b>
             </Paragraph>
           </section>
         )}
@@ -68,13 +90,15 @@ const IndexPage: NextPage = () => {
           <Paragraph>該当する書籍が見つかりませんでした</Paragraph>
         )}
 
-        {data
-          ?.flatMap((datum) => datum.items)
+        {bookList
+          ?.flatMap(({ items }) => items)
           .map((book) => (
             <article key={book.ID}>{book.TITLE}</article>
           ))}
 
-        <p ref={loaderRef}>{isLoading ? '検索中……' : '結果は以上です'}</p>
+        <p ref={loaderRef}>
+          {isLoadingBookList ? '検索中……' : '結果は以上です'}
+        </p>
       </Layout>
     </>
   );
