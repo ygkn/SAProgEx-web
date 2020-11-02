@@ -23,8 +23,6 @@ const IndexPage: NextPage = () => {
 
   const { loaderRef } = useInfiniteScroll<HTMLParagraphElement>(fetchMore);
 
-  const totalCount = data?.[0] && data[0].total;
-
   const handleChangeQuery = useCallback(
     (event: FormEvent<HTMLInputElement>) =>
       setInputtingQuery(event.currentTarget.value),
@@ -36,6 +34,8 @@ const IndexPage: NextPage = () => {
 
     setSubmittedQuery(inputtingQuery);
   };
+
+  const totalCount = data?.[0] && data[0].total;
 
   return (
     <>
