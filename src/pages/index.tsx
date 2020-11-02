@@ -9,7 +9,7 @@ import { useInfiniteScroll } from '../hooks/infinite-scroll';
 
 const IndexPage: NextPage = () => {
   const [inputtingQuery, setInputtingQuery] = useState<string>('');
-  const [submittedQuery, setSubmittedQuery] = useState<string>('');
+  const [submittedQuery, setSubmittedQuery] = useState<string | undefined>();
 
   const router = useRouter();
 
@@ -41,13 +41,9 @@ const IndexPage: NextPage = () => {
   );
 
   useEffect(() => {
-    const query = router.query.q ?? '';
+    const query = [router.query.q].flat()[0];
 
-    if (typeof query !== 'string') {
-      return;
-    }
-
-    setInputtingQuery(query);
+    setInputtingQuery(query ?? '');
     setSubmittedQuery(query);
   }, [router.query.q]);
 
@@ -90,10 +86,12 @@ const IndexPage: NextPage = () => {
             </datalist>
           </form>
 
-          {totalCount !== undefined && totalCount !== 0 && (
-            <Paragraph>{totalCount} 件見つかりました</Paragraph>
-          )}
-          {totalCount === 0 && (
+          {submittedQuery !== undefined &&
+            totalCount !== undefined &&
+            totalCount !== 0 && (
+              <Paragraph>{totalCount} 件見つかりました</Paragraph>
+            )}
+          {submittedQuery !== undefined && totalCount === 0 && (
             <Paragraph>該当する書籍が見つかりませんでした</Paragraph>
           )}
         </div>
@@ -107,32 +105,34 @@ const IndexPage: NextPage = () => {
           </section>
         )}
 
-        <div className="border rounded px-4">
-          {bookList
-            ?.flatMap(({ items }) => items)
-            .map((book) => (
-              <article key={book.ID} className="py-4 border-b">
-                <h1 className="font-bold">{book.TITLE}</h1>
-                <p>
-                  <Link href={`?q=${book.AUTHOR}`} passHref shallow>
-                    <a className="inline-block mr-2 text-blue-600 hover:underline">
-                      {book.AUTHOR}著
-                    </a>
-                  </Link>
-                  <Link href={`?q=${book.PUBLISHER}`} passHref shallow>
-                    <a className="inline-block mr-2 text-blue-600 hover:underline">
-                      {book.PUBLISHER}出版
-                    </a>
-                  </Link>
-                  <span className="inline-block mr-2">{book.PRICE}円</span>
-                </p>
-              </article>
-            ))}
+        {submittedQuery !== undefined && (
+          <div className="border rounded px-4">
+            {bookList
+              ?.flatMap(({ items }) => items)
+              .map((book) => (
+                <article key={book.ID} className="py-4 border-b">
+                  <h1 className="font-bold">{book.TITLE}</h1>
+                  <p>
+                    <Link href={`?q=${book.AUTHOR}`} passHref shallow>
+                      <a className="inline-block mr-2 text-blue-600 hover:underline">
+                        {book.AUTHOR}著
+                      </a>
+                    </Link>
+                    <Link href={`?q=${book.PUBLISHER}`} passHref shallow>
+                      <a className="inline-block mr-2 text-blue-600 hover:underline">
+                        {book.PUBLISHER}出版
+                      </a>
+                    </Link>
+                    <span className="inline-block mr-2">{book.PRICE}円</span>
+                  </p>
+                </article>
+              ))}
 
-          <p ref={loaderRef} className="my-4 text-center">
-            {isLoadingBookList ? '検索中……' : '結果は以上です'}
-          </p>
-        </div>
+            <p ref={loaderRef} className="my-4 text-center">
+              {isLoadingBookList ? '検索中……' : '結果は以上です'}
+            </p>
+          </div>
+        )}
       </Layout>
     </>
   );
