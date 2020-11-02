@@ -53,7 +53,9 @@ const IndexPage: NextPage = () => {
           </section>
         )}
 
-        {data?.total && <Paragraph>{data.total} 件見つかりました</Paragraph>}
+        {data && data.total !== 0 && (
+          <Paragraph>{data.total} 件見つかりました</Paragraph>
+        )}
         {data && data.total === 0 && (
           <Paragraph>該当する書籍が見つかりませんでした</Paragraph>
         )}
