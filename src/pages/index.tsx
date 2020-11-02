@@ -90,15 +90,22 @@ const IndexPage: NextPage = () => {
           <Paragraph>該当する書籍が見つかりませんでした</Paragraph>
         )}
 
-        {bookList
-          ?.flatMap(({ items }) => items)
-          .map((book) => (
-            <article key={book.ID}>{book.TITLE}</article>
-          ))}
+        <div className="border rounded px-4">
+          {bookList
+            ?.flatMap(({ items }) => items)
+            .map((book) => (
+              <article key={book.ID} className="py-4 border-b">
+                <h1 className="font-bold">{book.TITLE}</h1>
+                <p>
+                  {book.AUTHOR}著 {book.PUBLISHER}出版 {book.PRICE}円
+                </p>
+              </article>
+            ))}
 
-        <p ref={loaderRef}>
-          {isLoadingBookList ? '検索中……' : '結果は以上です'}
-        </p>
+          <p ref={loaderRef} className="my-4 text-center">
+            {isLoadingBookList ? '検索中……' : '結果は以上です'}
+          </p>
+        </div>
       </Layout>
     </>
   );
