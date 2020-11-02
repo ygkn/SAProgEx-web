@@ -68,8 +68,8 @@ const IndexPage: NextPage = () => {
           <Paragraph>該当する書籍が見つかりませんでした</Paragraph>
         )}
 
-        {(data ?? [])
-          .flatMap((datum) => datum.items)
+        {data
+          ?.flatMap((datum) => datum.items)
           .map((book) => (
             <article key={book.ID}>{book.TITLE}</article>
           ))}
