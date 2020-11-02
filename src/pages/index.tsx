@@ -7,8 +7,7 @@ import { useInfiniteScroll } from '../hooks/infinite-scroll';
 
 const IndexPage: NextPage = () => {
   const [inputtingQuery, setInputtingQuery] = useState<string>('');
-  const [submittedQuery, setSubmittedQuery] = useState<undefined | string>(
-    undefined
+  const [submittedQuery, setSubmittedQuery] = useState<undefined | string>();
   );
 
   const { isLoading, data, error, fetchMore } = useInfiniteQueryAPI(
