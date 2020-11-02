@@ -20,6 +20,7 @@
     "next-seo": "4.14.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-query": "^2.25.2",
     "react-share": "4.3.1"
   },
   "devDependencies": {

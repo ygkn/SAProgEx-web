@@ -1,6 +1,9 @@
 import '../styles/index.css';
 import type { AppProps } from 'next/app';
 import { FC, useEffect } from 'react';
+import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+
+const queryCache = new QueryCache();
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
@@ -15,8 +18,13 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
 
     return () => window.removeEventListener('resize', setFillHeight);
   }, []);
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <Component {...pageProps} />;
+
+  return (
+    <ReactQueryCacheProvider queryCache={queryCache}>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <Component {...pageProps} />
+    </ReactQueryCacheProvider>
+  );
 };
 
 export default MyApp;
