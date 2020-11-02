@@ -2,7 +2,8 @@ import { NextPage } from 'next';
 import { FormEvent, useCallback, useState } from 'react';
 
 import { Layout, Paragraph, SEO } from '../components';
-import { useQueryAPI } from '../hooks';
+import { useInfiniteQueryAPI } from '../hooks/API';
+import { useInfiniteScroll } from '../hooks/infinite-scroll';
 
 const IndexPage: NextPage = () => {
   const [inputtingQuery, setInputtingQuery] = useState<string>('');
@@ -10,11 +11,19 @@ const IndexPage: NextPage = () => {
     undefined
   );
 
-  const { isLoading, data, error } = useQueryAPI(
+  const { isLoading, data, error, fetchMore } = useInfiniteQueryAPI(
     'books',
     { query: submittedQuery },
-    { enabled: submittedQuery !== undefined }
+    {
+      enabled: submittedQuery !== undefined,
+      getFetchMore: (lastGroup) =>
+        lastGroup.hasMore && { after: lastGroup.items.slice(-1)[0].ID },
+    }
   );
+
+  const { loaderRef } = useInfiniteScroll<HTMLParagraphElement>(fetchMore);
+
+  const totalCount = data?.[0] && data[0].total;
 
   const handleChangeQuery = useCallback(
     (event: FormEvent<HTMLInputElement>) =>
@@ -53,19 +62,20 @@ const IndexPage: NextPage = () => {
           </section>
         )}
 
-        {data && data.total !== 0 && (
-          <Paragraph>{data.total} 件見つかりました</Paragraph>
+        {totalCount !== undefined && totalCount !== 0 && (
+          <Paragraph>{totalCount} 件見つかりました</Paragraph>
         )}
-        {data && data.total === 0 && (
+        {totalCount === 0 && (
           <Paragraph>該当する書籍が見つかりませんでした</Paragraph>
         )}
 
-        {data &&
-          data.items.map((book) => (
+        {(data ?? [])
+          .flatMap((datum) => datum.items)
+          .map((book) => (
             <article key={book.ID}>{book.TITLE}</article>
           ))}
 
-        {isLoading && <p>検索中……</p>}
+        <p ref={loaderRef}>{isLoading ? '検索中……' : '結果は以上です'}</p>
       </Layout>
     </>
   );
