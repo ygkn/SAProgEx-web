@@ -65,27 +65,27 @@ const IndexPage: NextPage = () => {
     <>
       <SEO title="" description="蔵書を検索" path="/" />
       <Layout>
-        <div className="sticky top-0 bg-white">
-          <form className="relative" onSubmit={handleSubmit}>
-            <div className="flex">
-              <input
-                type="search"
-                name="query"
-                className="flex-grow px-4 py-2 rounded-sm"
-                onChange={handleChangeQuery}
-                value={inputtingQuery}
-                placeholder="検索キーワードを入力"
-                list="search-suggestions"
-                autoComplete="off"
-              />
-            </div>
-            <datalist id="search-suggestions">
-              {suggestions?.map((item) => (
-                <option key={item} value={item} />
-              ))}
-            </datalist>
-          </form>
+        <form className="sticky top-0" onSubmit={handleSubmit}>
+          <div className="flex shadow focus-within:shadow-outline rounded-full bg-white py-2 px-5">
+            <input
+              type="search"
+              name="query"
+              className="flex-grow focus:outline-none"
+              onChange={handleChangeQuery}
+              value={inputtingQuery}
+              placeholder="検索キーワードを入力"
+              list="search-suggestions"
+              autoComplete="off"
+            />
+          </div>
+          <datalist id="search-suggestions">
+            {suggestions?.map((item) => (
+              <option key={item} value={item} />
+            ))}
+          </datalist>
+        </form>
 
+        <section className="py-4">
           {submittedQuery !== undefined &&
             totalCount !== undefined &&
             totalCount !== 0 && (
@@ -94,7 +94,7 @@ const IndexPage: NextPage = () => {
           {submittedQuery !== undefined && totalCount === 0 && (
             <Paragraph>該当する書籍が見つかりませんでした</Paragraph>
           )}
-        </div>
+        </section>
 
         {bookListError && (
           <section>
