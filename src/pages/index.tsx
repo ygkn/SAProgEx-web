@@ -1,5 +1,7 @@
 import { NextPage } from 'next';
-import { FormEvent, useCallback, useState } from 'react';
+import { useRouter } from 'next/dist/client/router';
+import Link from 'next/link';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 
 import { Layout, Paragraph, SEO } from '../components';
 import { useInfiniteQueryAPI, useQueryAPI } from '../hooks/API';
@@ -7,7 +9,9 @@ import { useInfiniteScroll } from '../hooks/infinite-scroll';
 
 const IndexPage: NextPage = () => {
   const [inputtingQuery, setInputtingQuery] = useState<string>('');
-  const [submittedQuery, setSubmittedQuery] = useState<undefined | string>();
+  const [submittedQuery, setSubmittedQuery] = useState<string>('');
+
+  const router = useRouter();
 
   const { data: suggestions } = useQueryAPI(
     'books/suggestions',
@@ -36,6 +40,17 @@ const IndexPage: NextPage = () => {
     fetchMoreBookList
   );
 
+  useEffect(() => {
+    const query = router.query.q ?? '';
+
+    if (typeof query !== 'string') {
+      return;
+    }
+
+    setInputtingQuery(query);
+    setSubmittedQuery(query);
+  }, [router.query.q]);
+
   const handleChangeQuery = useCallback(
     (event: FormEvent<HTMLInputElement>) =>
       setInputtingQuery(event.currentTarget.value),
@@ -45,7 +60,7 @@ const IndexPage: NextPage = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setSubmittedQuery(inputtingQuery);
+    router.push({ query: { q: inputtingQuery } }, undefined, { shallow: true });
   };
 
   const totalCount = bookList?.[0] && bookList[0].total;
@@ -97,7 +112,17 @@ const IndexPage: NextPage = () => {
               <article key={book.ID} className="py-4 border-b">
                 <h1 className="font-bold">{book.TITLE}</h1>
                 <p>
-                  {book.AUTHOR}著 {book.PUBLISHER}出版 {book.PRICE}円
+                  <Link href={`?q=${book.AUTHOR}`} passHref shallow>
+                    <a className="inline-block mr-2 text-blue-600 hover:underline">
+                      {book.AUTHOR}著
+                    </a>
+                  </Link>
+                  <Link href={`?q=${book.PUBLISHER}`} passHref shallow>
+                    <a className="inline-block mr-2 text-blue-600 hover:underline">
+                      {book.PUBLISHER}出版
+                    </a>
+                  </Link>
+                  <span className="inline-block mr-2">{book.PRICE}円</span>
                 </p>
               </article>
             ))}
