@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
+import Autosuggest from 'react-autosuggest';
 
 import { Layout, Paragraph, SEO } from '../components';
 import { useInfiniteQueryAPI, useQueryAPI } from '../hooks/API';
@@ -11,6 +12,8 @@ const IndexPage: NextPage = () => {
   const [inputtingQuery, setInputtingQuery] = useState<string>('');
   const [submittedQuery, setSubmittedQuery] = useState<string | undefined>();
 
+  const [suggestionQuery, setSuggestionQuery] = useState<string>('');
+
   const router = useRouter();
 
   const { data: suggestions } = useQueryAPI(
@@ -18,7 +21,7 @@ const IndexPage: NextPage = () => {
     {
       query: inputtingQuery,
     },
-    { enabled: inputtingQuery !== '' }
+    { enabled: suggestionQuery !== '' }
   );
 
   const {
@@ -48,8 +51,8 @@ const IndexPage: NextPage = () => {
   }, [router.query.q]);
 
   const handleChangeQuery = useCallback(
-    (event: FormEvent<HTMLInputElement>) =>
-      setInputtingQuery(event.currentTarget.value),
+    (_: unknown, { newValue }: { newValue: string }) =>
+      setInputtingQuery(newValue),
     []
   );
 
@@ -65,24 +68,36 @@ const IndexPage: NextPage = () => {
     <>
       <SEO title="" description="蔵書を検索" path="/" />
       <Layout>
-        <form className="sticky top-0" onSubmit={handleSubmit}>
-          <div className="flex shadow focus-within:shadow-outline rounded-full bg-white py-2 px-5">
-            <input
-              type="search"
-              name="query"
-              className="flex-grow focus:outline-none"
-              onChange={handleChangeQuery}
-              value={inputtingQuery}
-              placeholder="検索キーワードを入力"
-              list="search-suggestions"
-              autoComplete="off"
-            />
-          </div>
-          <datalist id="search-suggestions">
-            {suggestions?.map((item) => (
-              <option key={item} value={item} />
-            ))}
-          </datalist>
+        <form className="sticky top-0 h-12" onSubmit={handleSubmit}>
+          <Autosuggest
+            suggestions={
+              suggestionQuery !== '' && suggestions ? suggestions : []
+            }
+            onSuggestionsFetchRequested={({ value }) => {
+              setSuggestionQuery(value);
+            }}
+            onSuggestionsClearRequested={() => setSuggestionQuery('')}
+            getSuggestionValue={(value) => value}
+            renderSuggestion={(suggestion) => <>{suggestion}</>}
+            inputProps={{
+              type: 'search',
+              name: 'query',
+              onChange: handleChangeQuery,
+              value: inputtingQuery,
+              placeholder: '検索キーワードを入力',
+              list: 'search-suggestions',
+              autoComplete: 'off',
+            }}
+            theme={{
+              container:
+                'absolute top-0 bg-white rounded shadow w-full rounded-3xl py-2 flex flex-col ' +
+                'focus-within:shadow-md transition-shadow duration-200',
+              input: 'flex-grow focus:outline-none px-4',
+              suggestionsList: 'py-2 overflow-hidden',
+              suggestion: 'py-1 px-4 truncate',
+              suggestionHighlighted: 'bg-blue-500 text-white',
+            }}
+          />
         </form>
 
         <section className="py-4">
