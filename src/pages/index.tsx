@@ -140,7 +140,7 @@ const IndexPage: NextPage = () => {
               name: 'query',
               onChange: handleChangeQuery,
               value: inputtingQuery,
-              placeholder: '検索キーワードを入力',
+              placeholder: '検索キーワードを入力 （無入力で全て表示）',
               list: 'search-suggestions',
               autoComplete: 'off',
             }}
