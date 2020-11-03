@@ -79,6 +79,31 @@ const IndexPage: NextPage = () => {
             onSuggestionsClearRequested={() => setSuggestionQuery('')}
             getSuggestionValue={(value) => value}
             renderSuggestion={(suggestion) => <>{suggestion}</>}
+            renderSuggestionsContainer={({
+              containerProps,
+              children,
+              query,
+            }) => (
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              <div {...containerProps}>
+                {children}
+                {children !== null && (
+                  <p className="px-4 pt-2 text-gray-800">
+                    <kbd className="px-1 rounded m-1 bg-gray-100 border border-b-2">
+                      Enter
+                    </kbd>
+                    を押して <strong>{query}</strong> で検索、
+                    <kbd className="px-1 rounded m-1 bg-gray-100 border border-b-2">
+                      ↑
+                    </kbd>
+                    <kbd className="px-1 rounded m-1 bg-gray-100 border border-b-2">
+                      ↓
+                    </kbd>
+                    を押して候補を選択
+                  </p>
+                )}
+              </div>
+            )}
             inputProps={{
               type: 'search',
               name: 'query',
@@ -90,10 +115,9 @@ const IndexPage: NextPage = () => {
             }}
             theme={{
               container:
-                'absolute top-0 bg-white rounded shadow w-full rounded-3xl py-2 flex flex-col ' +
+                'absolute top-0 bg-white rounded shadow w-full rounded-3xl py-2 ' +
                 'focus-within:shadow-md transition-shadow duration-200',
-              input: 'flex-grow focus:outline-none px-4',
-              suggestionsList: 'py-2 overflow-hidden',
+              input: 'w-full focus:outline-none px-4',
               suggestion: 'py-1 px-4 truncate cursor-pointer',
               suggestionHighlighted: 'bg-blue-500 text-white',
             }}
