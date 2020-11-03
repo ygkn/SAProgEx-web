@@ -21,7 +21,7 @@ const IndexPage: NextPage = () => {
     {
       query: suggestionQuery,
     },
-    { enabled: suggestionQuery !== '' }
+    { enabled: suggestionQuery !== '', keepPreviousData: true }
   );
 
   const {
