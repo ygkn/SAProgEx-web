@@ -19,7 +19,7 @@ const IndexPage: NextPage = () => {
   const { data: suggestions } = useQueryAPI(
     'books/suggestions',
     {
-      query: inputtingQuery,
+      query: suggestionQuery,
     },
     { enabled: suggestionQuery !== '' }
   );
@@ -73,9 +73,9 @@ const IndexPage: NextPage = () => {
             suggestions={
               suggestionQuery !== '' && suggestions ? suggestions : []
             }
-            onSuggestionsFetchRequested={({ value }) => {
-              setSuggestionQuery(value);
-            }}
+            onSuggestionsFetchRequested={({ value }) =>
+              setSuggestionQuery(value)
+            }
             onSuggestionsClearRequested={() => setSuggestionQuery('')}
             getSuggestionValue={(value) => value}
             renderSuggestion={(suggestion) => <>{suggestion}</>}
@@ -94,7 +94,7 @@ const IndexPage: NextPage = () => {
                 'focus-within:shadow-md transition-shadow duration-200',
               input: 'flex-grow focus:outline-none px-4',
               suggestionsList: 'py-2 overflow-hidden',
-              suggestion: 'py-1 px-4 truncate',
+              suggestion: 'py-1 px-4 truncate cursor-pointer',
               suggestionHighlighted: 'bg-blue-500 text-white',
             }}
           />
