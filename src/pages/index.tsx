@@ -121,11 +121,11 @@ const IndexPage: NextPage = () => {
         )}
 
         {submittedQuery !== undefined && (
-          <div className="border rounded px-4">
+          <div className="border rounded-sm">
             {bookList
               ?.flatMap(({ items }) => items)
               .map((book) => (
-                <article key={book.ID} className="py-4 border-b">
+                <article key={book.ID} className="p-4 border-b">
                   <h1 className="font-bold">{book.TITLE}</h1>
                   <p>
                     <Link href={`?q=${book.AUTHOR}`} passHref shallow>
@@ -143,7 +143,7 @@ const IndexPage: NextPage = () => {
                 </article>
               ))}
 
-            <p ref={loaderRef} className="my-4 text-center">
+            <p ref={loaderRef} className="p-4 text-center">
               {isLoadingBookList ? '検索中……' : '結果は以上です'}
             </p>
           </div>
