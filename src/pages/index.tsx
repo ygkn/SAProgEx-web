@@ -91,7 +91,7 @@ const IndexPage: NextPage = () => {
                 {inputProps.value !== '' && (
                   <button
                     type="button"
-                    className="py-1 px-3 mr-2 bg-red-500 text-white self-center rounded-full focus:outline-none focus:shadow-outline w-auto transition-all duration-200"
+                    className="py-1 px-3 mr-2 bg-red-500 font-bold text-white self-center rounded-full focus:outline-none focus:shadow-outline w-auto transition-all duration-200"
                     onClick={() => {
                       setInputtingQuery('');
                       setSuggestionQuery('');
@@ -103,7 +103,7 @@ const IndexPage: NextPage = () => {
 
                 <button
                   type="submit"
-                  className="py-1 px-2 mr-3 bg-blue-500 text-white self-center rounded-full focus:outline-none focus:shadow-outline w-auto transition-all duration-200"
+                  className="py-1 px-2 mr-3 bg-blue-500 font-bold text-white self-center rounded-full focus:outline-none focus:shadow-outline w-auto transition-shadow duration-200"
                 >
                   {inputProps.value === '' ? '全て表示' : '検索'}
                 </button>
