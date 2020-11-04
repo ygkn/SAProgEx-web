@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 
-import { Layout, Paragraph, SEO } from '../components';
+import { Anchor, Layout, Paragraph, SEO } from '../components';
 import { useInfiniteQueryAPI, useQueryAPI } from '../hooks/API';
 import { useInfiniteScroll } from '../hooks/infinite-scroll';
 
@@ -182,17 +182,21 @@ const IndexPage: NextPage = () => {
                 <article key={book.ID} className="p-4 border-b">
                   <h1 className="font-bold">{book.TITLE}</h1>
                   <p>
-                    <Link href={`?q=${book.AUTHOR}`} passHref shallow>
-                      <a className="inline-block mr-2 text-blue-600 hover:underline">
-                        {book.AUTHOR}著
-                      </a>
-                    </Link>
-                    <Link href={`?q=${book.PUBLISHER}`} passHref shallow>
-                      <a className="inline-block mr-2 text-blue-600 hover:underline">
-                        {book.PUBLISHER}出版
-                      </a>
-                    </Link>
-                    <span className="inline-block mr-2">{book.PRICE}円</span>
+                    <span className="inline-block mr-2">
+                      著:{' '}
+                      <Link href={`?q=${book.AUTHOR}`} passHref shallow>
+                        <Anchor>{book.AUTHOR}</Anchor>
+                      </Link>
+                    </span>
+                    <span className="inline-block mr-2">
+                      出版:{' '}
+                      <Link href={`?q=${book.PUBLISHER}`} passHref shallow>
+                        <Anchor>{book.PUBLISHER}</Anchor>
+                      </Link>
+                    </span>
+                    <span className="inline-block mr-2">
+                      値段: {book.PRICE}円
+                    </span>
                   </p>
                 </article>
               ))}
