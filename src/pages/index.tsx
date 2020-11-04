@@ -103,7 +103,7 @@ const IndexPage: NextPage = () => {
 
                 <button
                   type="submit"
-                  className="py-1 px-2 mr-3 bg-blue-500 font-bold text-white self-center rounded-full focus:outline-none focus:shadow-outline w-auto transition-shadow duration-200"
+                  className="py-1 px-2 mr-3 bg-blue-500 font-bold text-white self-center rounded-full focus:outline-none focus:shadow-outline w-auto transition-shadow duration-200 glow-blue-500 hover:glow-blue-500-md"
                 >
                   {inputProps.value === '' ? '全て表示' : '検索'}
                 </button>
