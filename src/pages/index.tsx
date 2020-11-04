@@ -87,9 +87,23 @@ const IndexPage: NextPage = () => {
                   // eslint-disable-next-line react/jsx-props-no-spreading
                   {...inputProps}
                 />
+
+                {inputProps.value !== '' && (
+                  <button
+                    type="button"
+                    className="py-1 px-3 mr-2 bg-red-500 text-white self-center rounded-full focus:outline-none focus:shadow-outline w-auto transition-all duration-200"
+                    onClick={() => {
+                      setInputtingQuery('');
+                      setSuggestionQuery('');
+                    }}
+                  >
+                    取消
+                  </button>
+                )}
+
                 <button
                   type="submit"
-                  className="p-3 self-center rounded-full focus:outline-none focus:shadow-outline w-auto"
+                  className="py-1 px-2 mr-3 bg-blue-500 text-white self-center rounded-full focus:outline-none focus:shadow-outline w-auto transition-all duration-200"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

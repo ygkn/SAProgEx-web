@@ -9,3 +9,7 @@ body,
 #__next {
   @apply min-h-screen;
 }
+
+::-webkit-search-cancel-button {
+  display: none;
+}
