@@ -68,7 +68,7 @@ const IndexPage: NextPage = () => {
     <>
       <SEO title="" description="蔵書を検索" path="/" />
       <Layout>
-        <form className="sticky top-0 h-12" onSubmit={handleSubmit}>
+        <form className="sticky top-0 pt-12 bg-white" onSubmit={handleSubmit}>
           <Autosuggest
             suggestions={
               suggestionQuery !== '' && suggestions ? suggestions : []
