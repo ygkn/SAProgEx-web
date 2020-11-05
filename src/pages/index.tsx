@@ -101,7 +101,7 @@ const IndexPage: NextPage = () => {
                 {inputProps.value !== '' && (
                   <button
                     type="button"
-                    className="py-1 px-3 mr-2 bg-red-500 font-bold text-white self-center rounded-full focus:outline-none focus:shadow-outline w-auto transition-all duration-200"
+                    className="py-1 px-3 mr-2 text-red-500 border-current border-2 font-bold bg-white self-center rounded-full focus:outline-none focus:shadow-outline w-auto transition-all duration-200"
                     onClick={() => {
                       setInputtingQuery('');
                       setSuggestionQuery('');
