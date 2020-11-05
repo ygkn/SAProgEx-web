@@ -34,7 +34,7 @@ module.exports = {
             ([, value]) => value !== 'currentColor' && value !== 'transparent'
           )
           .flatMap(([modifier, value]) => {
-            const shadowColor = color(toColorValue(value)).fade(0.5).string();
+            const shadowColor = color(toColorValue(value)).fade(0.4).string();
             return [
               [
                 `.glow-${escapeClassName(modifier)}`,
