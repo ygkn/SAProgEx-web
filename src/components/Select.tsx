@@ -1,4 +1,3 @@
-import { type } from 'os';
 import { FC, FormEvent } from 'react';
 
 type Props = {
