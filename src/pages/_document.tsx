@@ -22,7 +22,7 @@ class MyDocument extends Document {
         <Head>
           <meta charSet="UTF-8" />
         </Head>
-        <body className="font-sans bg-white text-black overflow-y-scroll">
+        <body className="font-sans bg-gray-100 text-gray-900 overflow-y-scroll">
           <Main />
           <NextScript />
         </body>
