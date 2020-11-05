@@ -14,7 +14,10 @@ const queryAPI = async <Key extends QueryKey>(
   cursor: Partial<QueryParams<Key>> = {}
 ) => {
   const paramsString = Object.entries({ ...params, ...cursor })
-    .map(([paramsKey, paramsValue]) => `${paramsKey}=${paramsValue}`)
+    .map(
+      ([paramsKey, paramsValue]) =>
+        `${encodeURIComponent(paramsKey)}=${encodeURIComponent(paramsValue)}`
+    )
     .join('&');
 
   const result = await fetch(`http://127.0.0.1:5000/${key}?${paramsString}`);
