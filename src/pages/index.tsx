@@ -215,7 +215,7 @@ const IndexPage: NextPage = () => {
         </section>
 
         {bookListError && (
-          <section>
+          <section className="my-4 p-4 bg-red-200 text-red-700 rounded border-current border">
             <Paragraph>エラーが発生しました</Paragraph>
             <Paragraph>
               <b>{bookListError.message}</b>
