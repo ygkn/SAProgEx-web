@@ -4,14 +4,19 @@ import Link from 'next/link';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 
-import { Anchor, Layout, Paragraph, SEO } from '../components';
+import { Anchor, Layout, Paragraph, Select, SEO } from '../components';
 import { useInfiniteQueryAPI, useQueryAPI } from '../hooks/API';
 import { useInfiniteScroll } from '../hooks/infinite-scroll';
+import { Book } from '../types/Book';
 
 const IndexPage: NextPage = () => {
   const [inputtingQuery, setInputtingQuery] = useState<string>('');
-  const [submittedQuery, setSubmittedQuery] = useState<string | undefined>();
+  const [sortingField, setSortingField] = useState<keyof Book>('ID');
+  const [sortingDirection, setSortingDirection] = useState<'asc' | 'desc'>(
+    'asc'
+  );
 
+  const [submittedQuery, setSubmittedQuery] = useState<string | undefined>();
   const [suggestionQuery, setSuggestionQuery] = useState<string>('');
 
   const router = useRouter();
@@ -31,11 +36,16 @@ const IndexPage: NextPage = () => {
     fetchMore: fetchMoreBookList,
   } = useInfiniteQueryAPI(
     'books',
-    { query: submittedQuery },
+    {
+      query: submittedQuery,
+      'sort-field': sortingField,
+      'sort-direction': sortingDirection,
+    },
     {
       enabled: submittedQuery !== undefined,
       getFetchMore: (lastGroup) =>
         lastGroup.hasMore && { after: lastGroup.items.slice(-1)[0].ID },
+      keepPreviousData: true,
     }
   );
 
@@ -145,13 +155,52 @@ const IndexPage: NextPage = () => {
             }}
             theme={{
               container:
-                'absolute top-0 bg-white rounded shadow w-full rounded-3xl ' +
+                'absolute z-10 top-0 bg-white rounded shadow w-full rounded-3xl ' +
                 'focus-within:shadow-md transition-shadow duration-200',
               input: 'flex-grow focus:outline-none py-3 px-4 bg-transparent',
               suggestion: 'py-1 px-4 truncate cursor-pointer',
               suggestionHighlighted: 'bg-blue-500 text-white',
             }}
           />
+          <div className="p-3 flex justify-end">
+            <label>
+              並び替え項目
+              <Select
+                name="sorting-field"
+                value={sortingField}
+                onChange={(event) =>
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore TODO: make sure event.currentTarget.value is keyof Book
+                  setSortingField(event.currentTarget.value)
+                }
+                options={[
+                  { value: 'ID', label: 'ID' },
+                  { value: 'AUTHOR', label: '著者' },
+                  { value: 'TITLE', label: 'タイトル' },
+                  { value: 'PUBLISHER', label: '出版社' },
+                  { value: 'PRICE', label: '値段' },
+                  { value: 'ISBN', label: 'ISBN' },
+                ]}
+              />
+            </label>
+
+            <label>
+              並び替え方向
+              <Select
+                name="sorting-direction"
+                value={sortingDirection}
+                onChange={(event) =>
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore TODO: make sure event.currentTarget.value 'asc' or 'desc'
+                  setSortingDirection(event.currentTarget.value)
+                }
+                options={[
+                  { value: 'asc', label: '小→大' },
+                  { value: 'desc', label: '大→小' },
+                ]}
+              />
+            </label>
+          </div>
         </form>
 
         <section className="py-4">
