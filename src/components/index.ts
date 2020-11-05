@@ -4,4 +4,5 @@ export { default as Header } from './Header';
 export { default as Heading } from './Heading';
 export { default as Layout } from './Layout';
 export { default as Paragraph } from './Paragraph';
+export { default as Select } from './Select';
 export { default as SEO } from './SEO';
