@@ -3,7 +3,13 @@ import { Book } from './Book';
 export type QueryKey = 'books' | 'books/suggestions';
 
 export type QueryParams<Key extends QueryKey> = {
-  books: { query?: string; after?: number; count?: number };
+  books: {
+    query?: string;
+    after?: number;
+    count?: number;
+    'sort-field'?: keyof Book;
+    'sort-direction'?: 'asc' | 'desc';
+  };
   'books/suggestions': { query?: string };
 }[Key];
 
