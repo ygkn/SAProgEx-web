@@ -6,6 +6,7 @@ import Autosuggest from 'react-autosuggest';
 
 import { Anchor, Keytop, Layout, Paragraph, Select, SEO } from '../components';
 import { useInfiniteQueryAPI, useQueryAPI } from '../hooks/API';
+import { useFocusKey } from '../hooks/focusKey';
 import { useInfiniteScroll } from '../hooks/infinite-scroll';
 import { Book } from '../types/Book';
 
@@ -18,6 +19,8 @@ const IndexPage: NextPage = () => {
 
   const [submittedQuery, setSubmittedQuery] = useState<string | undefined>();
   const [suggestionQuery, setSuggestionQuery] = useState<string>('');
+
+  const searchInputRef = useFocusKey('/');
 
   const router = useRouter();
 
@@ -146,9 +149,13 @@ const IndexPage: NextPage = () => {
               name: 'query',
               onChange: handleChangeQuery,
               value: inputtingQuery,
-              placeholder: '検索キーワードを入力 （無入力で全て表示）',
+              placeholder:
+                '検索キーワードを入力、無入力で全て表示 ("/" を押してフォーカス)',
               list: 'search-suggestions',
               autoComplete: 'off',
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
+              ref: searchInputRef,
             }}
             theme={{
               container:
