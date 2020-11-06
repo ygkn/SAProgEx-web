@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 
-import { Anchor, Layout, Paragraph, Select, SEO } from '../components';
+import { Anchor, Keytop, Layout, Paragraph, Select, SEO } from '../components';
 import { useInfiniteQueryAPI, useQueryAPI } from '../hooks/API';
 import { useInfiniteScroll } from '../hooks/infinite-scroll';
 import { Book } from '../types/Book';
@@ -132,16 +132,10 @@ const IndexPage: NextPage = () => {
                 {children}
                 {children !== null && (
                   <p className="px-4 py-2 text-gray-800">
-                    <kbd className="px-1 rounded m-1 bg-gray-100 border border-b-2">
-                      Enter
-                    </kbd>
+                    <Keytop>Enter</Keytop>
                     を押して <strong>{query}</strong> で検索、
-                    <kbd className="px-1 rounded m-1 bg-gray-100 border border-b-2">
-                      ↑
-                    </kbd>
-                    <kbd className="px-1 rounded m-1 bg-gray-100 border border-b-2">
-                      ↓
-                    </kbd>
+                    <Keytop>↑</Keytop>
+                    <Keytop>↓</Keytop>
                     を押して候補を選択
                   </p>
                 )}
