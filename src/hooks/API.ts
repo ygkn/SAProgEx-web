@@ -5,8 +5,7 @@ import {
   InfiniteQueryConfig,
 } from 'react-query';
 
-import { fetchAPI } from '../fetcher/API';
-import { QueryKey, QueryParams, QueryResult } from '../types/API';
+import { QueryKey, QueryParams, QueryResult, fetchAPI } from '../lib/API';
 
 export const useQueryAPI = <Key extends QueryKey>(
   key: Key,
