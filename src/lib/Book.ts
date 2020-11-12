@@ -7,13 +7,13 @@ export type Book = {
   ISBN: string;
 };
 
-export const isbnTo10 = (isbn: string): string => {
+export const isbnTo10 = (isbn: string): string | undefined => {
   if (isbn.length === 10) {
     return isbn;
   }
 
   if (isbn.length !== 13) {
-    throw new Error(`Invalid ISBN: ${isbn}`);
+    return undefined;
   }
 
   const dataPart = isbn.slice(3, -1);

@@ -231,40 +231,41 @@ const IndexPage: NextPage = () => {
           <div className="bg-white border rounded-sm">
             {bookList
               ?.flatMap(({ items }) => items)
-              .map((book) => (
-                <article key={book.ID} className="p-4 border-b">
-                  <h1 className="font-bold">{book.TITLE}</h1>
-                  <p>
-                    <span className="inline-block mr-2">
-                      著:{' '}
-                      <Link href={`?q=${book.AUTHOR}`} passHref shallow>
-                        <Anchor>{book.AUTHOR}</Anchor>
-                      </Link>
-                    </span>
-                    <span className="inline-block mr-2">
-                      出版:{' '}
-                      <Link href={`?q=${book.PUBLISHER}`} passHref shallow>
-                        <Anchor>{book.PUBLISHER}</Anchor>
-                      </Link>
-                    </span>
-                    <span className="inline-block mr-2">
-                      値段: {book.PRICE}円
-                    </span>
-                    {book.ISBN && (
+              .map((book) => {
+                const isbn10 = isbnTo10(book.ISBN);
+                return (
+                  <article key={book.ID} className="p-4 border-b">
+                    <h1 className="font-bold">{book.TITLE}</h1>
+                    <p>
                       <span className="inline-block mr-2">
-                        <Anchor
-                          href={`https://www.amazon.co.jp/dp/${isbnTo10(
-                            book.ISBN
-                          )}`}
-                          external
-                        >
-                          Amazon
-                        </Anchor>
+                        著:{' '}
+                        <Link href={`?q=${book.AUTHOR}`} passHref shallow>
+                          <Anchor>{book.AUTHOR}</Anchor>
+                        </Link>
                       </span>
-                    )}
-                  </p>
-                </article>
-              ))}
+                      <span className="inline-block mr-2">
+                        出版:{' '}
+                        <Link href={`?q=${book.PUBLISHER}`} passHref shallow>
+                          <Anchor>{book.PUBLISHER}</Anchor>
+                        </Link>
+                      </span>
+                      <span className="inline-block mr-2">
+                        値段: {book.PRICE}円
+                      </span>
+                      {isbn10 && (
+                        <span className="inline-block mr-2">
+                          <Anchor
+                            href={`https://www.amazon.co.jp/dp/${isbn10}`}
+                            external
+                          >
+                            Amazon
+                          </Anchor>
+                        </span>
+                      )}
+                    </p>
+                  </article>
+                );
+              })}
 
             <p ref={loaderRef} className="p-4 text-center">
               {isLoadingBookList ? '検索中……' : '結果は以上です'}
