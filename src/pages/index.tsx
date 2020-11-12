@@ -8,7 +8,7 @@ import { Anchor, Keytop, Layout, Paragraph, Select, SEO } from '../components';
 import { useInfiniteQueryAPI, useQueryAPI } from '../hooks/API';
 import { useFocusKey } from '../hooks/focusKey';
 import { useInfiniteScroll } from '../hooks/infinite-scroll';
-import { Book } from '../types/Book';
+import { Book, isbnTo10 } from '../lib/Book';
 
 const IndexPage: NextPage = () => {
   const [inputtingQuery, setInputtingQuery] = useState<string>('');
@@ -250,6 +250,18 @@ const IndexPage: NextPage = () => {
                     <span className="inline-block mr-2">
                       値段: {book.PRICE}円
                     </span>
+                    {book.ISBN && (
+                      <span className="inline-block mr-2">
+                        <Anchor
+                          href={`https://www.amazon.co.jp/dp/${isbnTo10(
+                            book.ISBN
+                          )}`}
+                          external
+                        >
+                          Amazon
+                        </Anchor>
+                      </span>
+                    )}
                   </p>
                 </article>
               ))}
