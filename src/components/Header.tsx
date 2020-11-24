@@ -4,7 +4,7 @@ import { FC } from 'react';
 const Header: FC = () => (
   <header>
     <nav>
-      <h1 className="text-4xl">
+      <h1 className="text-4xl pt-2 pb-6">
         <Link href="/">
           <a className="flex items-baseline">
             <img
