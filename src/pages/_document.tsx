@@ -21,6 +21,7 @@ class MyDocument extends Document {
       <Html lang="ja">
         <Head>
           <meta charSet="UTF-8" />
+          <link rel="shortcut icon" type="image/svg+xml" href="/favicon.svg" />
         </Head>
         <body className="font-sans bg-gray-100 text-gray-900 overflow-y-scroll">
           <Main />
