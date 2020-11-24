@@ -23,7 +23,7 @@ class MyDocument extends Document {
           <meta charSet="UTF-8" />
           <link rel="shortcut icon" type="image/svg+xml" href="/favicon.svg" />
         </Head>
-        <body className="font-sans bg-gray-100 text-gray-900 overflow-y-scroll">
+        <body className="font-sans bg-blue-50 text-gray-900 overflow-y-scroll">
           <Main />
           <NextScript />
         </body>
