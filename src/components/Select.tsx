@@ -12,7 +12,7 @@ const Select: FC<Props> = ({ name, value, onChange, options }) => (
     {/* eslint-disable-next-line jsx-a11y/no-onchange */}
     <select
       name={name}
-      className="appearance-none rounded-full bg-gray-300 text-black px-4 py-1 pr-8 focus:bg-gray-100 focus:outline-none focus:shadow-outline"
+      className="appearance-none rounded-full bg-gray-300 text-black px-4 py-1 pr-8 focus:bg-gray-100 focus:outline-none focus:ring"
       value={value}
       onChange={onChange}
     >
