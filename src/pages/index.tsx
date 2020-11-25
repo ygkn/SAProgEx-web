@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
-import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 
