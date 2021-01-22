@@ -1,8 +1,10 @@
 import {
-  QueryConfig,
   useQuery,
   useInfiniteQuery,
-  InfiniteQueryConfig,
+  UseQueryOptions,
+  UseQueryResult,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
 } from 'react-query';
 
 import { QueryKey, QueryParams, QueryResult, fetchAPI } from '../lib/API';
@@ -10,19 +12,21 @@ import { QueryKey, QueryParams, QueryResult, fetchAPI } from '../lib/API';
 export const useQueryAPI = <Key extends QueryKey>(
   key: Key,
   params: QueryParams<Key>,
-  config?: QueryConfig<QueryResult<Key>, Error>
-) => useQuery<QueryResult<Key>, Error>([key, params], fetchAPI, config);
+  options: UseQueryOptions<QueryResult<Key>, Error, QueryResult<Key>>
+): UseQueryResult<QueryResult<Key>, Error> =>
+  useQuery<QueryResult<Key>, Error, QueryResult<Key>>(
+    [key, params],
+    () => fetchAPI(key, params),
+    options
+  );
 
 export const useInfiniteQueryAPI = <Key extends QueryKey>(
   key: Key,
   params: QueryParams<Key>,
-  config?: Omit<
-    InfiniteQueryConfig<QueryResult<Key>, Error>,
-    'getFetchMore'
-  > & {
-    getFetchMore?: (
-      lastPage: QueryResult<Key>,
-      allPages: QueryResult<Key>[]
-    ) => boolean | Partial<QueryParams<Key>>;
-  }
-) => useInfiniteQuery<QueryResult<Key>, Error>([key, params], fetchAPI, config);
+  options: UseInfiniteQueryOptions<QueryResult<Key>, Error, QueryResult<Key>>
+): UseInfiniteQueryResult<QueryResult<Key>, Error> =>
+  useInfiniteQuery<QueryResult<Key>, Error, QueryResult<Key>>(
+    [key, params],
+    () => fetchAPI(key, params),
+    options
+  );

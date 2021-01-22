@@ -36,7 +36,7 @@ const IndexPage: NextPage = () => {
     isLoading: isLoadingBookList,
     data: bookList,
     error: bookListError,
-    fetchMore: fetchMoreBookList,
+    fetchNextPage: fetchNextBookList,
   } = useInfiniteQueryAPI(
     'books',
     {
@@ -46,14 +46,14 @@ const IndexPage: NextPage = () => {
     },
     {
       enabled: submittedQuery !== undefined,
-      getFetchMore: (lastGroup) =>
+      getNextPageParam: (lastGroup) =>
         lastGroup.hasMore && { after: lastGroup.items.slice(-1)[0].ID },
       keepPreviousData: true,
     }
   );
 
   const { loaderRef } = useInfiniteScroll<HTMLParagraphElement>(
-    fetchMoreBookList
+    fetchNextBookList
   );
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const IndexPage: NextPage = () => {
     router.push({ query: { q: inputtingQuery } }, undefined, { shallow: true });
   };
 
-  const totalCount = bookList?.[0] && bookList[0].total;
+  const totalCount = bookList?.pages?.[0]?.total;
 
   return (
     <>
@@ -226,7 +226,7 @@ const IndexPage: NextPage = () => {
 
         {submittedQuery !== undefined && (
           <div className="bg-white border rounded-sm">
-            {bookList
+            {bookList?.pages
               ?.flatMap(({ items }) => items)
               .map((book) => {
                 const isbn10 = isbnTo10(book.ISBN);
