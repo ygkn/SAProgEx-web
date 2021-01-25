@@ -162,7 +162,8 @@ const IndexPage: NextPage = () => {
               container:
                 'absolute z-10 top-0 bg-white rounded shadow w-full rounded-3xl ' +
                 'focus-within:shadow-md transition-shadow duration-200',
-              input: 'flex-grow focus:outline-none py-3 px-4 bg-transparent',
+              input:
+                'flex-grow flex-shrink min-w-0 focus:outline-none py-3 px-4 bg-transparent',
               suggestion: 'py-1 px-4 truncate cursor-pointer',
               suggestionHighlighted: 'bg-blue-500 text-white',
             }}
