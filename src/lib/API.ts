@@ -30,6 +30,8 @@ export const fetchAPI = async <Key extends QueryKey>(
     )
     .join('&');
 
-  const result = await fetch(`http://127.0.0.1:5000/${key}?${paramsString}`);
+  const result = await fetch(
+    `https://booksearchman.herokuapp.com/${key}?${paramsString}`
+  );
   return result.json();
 };
