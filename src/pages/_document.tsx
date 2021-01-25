@@ -25,7 +25,7 @@ class MyDocument extends Document {
           <meta charSet="UTF-8" />
           <link rel="shortcut icon" type="image/svg+xml" href="/favicon.svg" />
           <link rel="manifest" href="/manifest.json" />
-          <meta name="theme-color" content="#B61F38" />
+          <meta name="theme-color" content={manifestJSON.theme_color} />
           <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
