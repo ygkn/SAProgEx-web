@@ -12,7 +12,7 @@ import { Book, isbnTo10 } from '../lib/Book';
 
 const IndexPage: NextPage = () => {
   const [inputtingQuery, setInputtingQuery] = useState<string>('');
-  const [sortingField, setSortingField] = useState<keyof Book>('ID');
+  const [sortingField, setSortingField] = useState<keyof Book>('id');
   const [sortingDirection, setSortingDirection] = useState<'asc' | 'desc'>(
     'asc'
   );
@@ -47,7 +47,7 @@ const IndexPage: NextPage = () => {
     {
       enabled: submittedQuery !== undefined,
       getNextPageParam: (lastGroup) =>
-        lastGroup.hasMore && { after: lastGroup.items.slice(-1)[0].ID },
+        lastGroup.hasMore && { after: lastGroup.items.slice(-1)[0].id },
       keepPreviousData: true,
     }
   );
@@ -179,12 +179,12 @@ const IndexPage: NextPage = () => {
                   setSortingField(event.currentTarget.value)
                 }
                 options={[
-                  { value: 'ID', label: 'ID' },
-                  { value: 'AUTHOR', label: '著者' },
-                  { value: 'TITLE', label: 'タイトル' },
-                  { value: 'PUBLISHER', label: '出版社' },
-                  { value: 'PRICE', label: '値段' },
-                  { value: 'ISBN', label: 'ISBN' },
+                  { value: 'id', label: 'ID' },
+                  { value: 'author', label: '著者' },
+                  { value: 'title', label: 'タイトル' },
+                  { value: 'publisher', label: '出版社' },
+                  { value: 'price', label: '値段' },
+                  { value: 'isbn', label: 'ISBN' },
                 ]}
               />
             </label>
@@ -233,25 +233,25 @@ const IndexPage: NextPage = () => {
             {bookList?.pages
               ?.flatMap(({ items }) => items)
               .map((book) => {
-                const isbn10 = isbnTo10(book.ISBN);
+                const isbn10 = isbnTo10(book.isbn);
                 return (
-                  <article key={book.ID} className="p-4 border-b">
-                    <h1 className="font-bold">{book.TITLE}</h1>
+                  <article key={book.id} className="p-4 border-b">
+                    <h1 className="font-bold">{book.title}</h1>
                     <p>
                       <span className="inline-block mr-2">
                         著:{' '}
-                        <Link href={`?q=${book.AUTHOR}`} passHref shallow>
-                          <Anchor>{book.AUTHOR}</Anchor>
+                        <Link href={`?q=${book.author}`} passHref shallow>
+                          <Anchor>{book.author}</Anchor>
                         </Link>
                       </span>
                       <span className="inline-block mr-2">
                         出版:{' '}
-                        <Link href={`?q=${book.PUBLISHER}`} passHref shallow>
-                          <Anchor>{book.PUBLISHER}</Anchor>
+                        <Link href={`?q=${book.publisher}`} passHref shallow>
+                          <Anchor>{book.publisher}</Anchor>
                         </Link>
                       </span>
                       <span className="inline-block mr-2">
-                        値段: {book.PRICE}円
+                        値段: {book.price}円
                       </span>
                       {isbn10 && (
                         <span className="inline-block mr-2">

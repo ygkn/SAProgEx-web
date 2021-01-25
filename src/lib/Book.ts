@@ -1,10 +1,10 @@
 export type Book = {
-  ID: number;
-  AUTHOR: string;
-  TITLE: string;
-  PUBLISHER: string;
-  PRICE: number;
-  ISBN: string;
+  id: number;
+  author: string;
+  title: string;
+  publisher: string;
+  price: number;
+  isbn: string;
 };
 
 export const isbnTo10 = (isbn: string): string | undefined => {
