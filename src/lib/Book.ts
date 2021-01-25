@@ -8,15 +8,17 @@ export type Book = {
 };
 
 export const isbnTo10 = (isbn: string): string | undefined => {
-  if (isbn.length === 10) {
-    return isbn;
+  const trimmedIsbn = isbn.trim();
+
+  if (trimmedIsbn.length === 10) {
+    return trimmedIsbn;
   }
 
-  if (isbn.length !== 13) {
+  if (trimmedIsbn.length !== 13) {
     return undefined;
   }
 
-  const dataPart = isbn.slice(3, -1);
+  const dataPart = trimmedIsbn.slice(3, -1);
 
   const sum = dataPart
     .split('')
