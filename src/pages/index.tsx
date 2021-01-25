@@ -72,7 +72,11 @@ const IndexPage: NextPage = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    router.push({ query: { q: inputtingQuery } }, undefined, { shallow: true });
+    router.push(
+      { query: inputtingQuery !== '' ? { q: inputtingQuery } : undefined },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const totalCount = bookList?.pages?.[0]?.total;
