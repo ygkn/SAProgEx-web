@@ -168,8 +168,8 @@ const IndexPage: NextPage = () => {
             }}
           />
           <div className="p-3 flex justify-end">
-            <label>
-              並び替え項目
+            <label className="flex flex-wrap w-min justify-end">
+              <span className="whitespace-nowrap mx-1">並び替え項目</span>
               <Select
                 name="sorting-field"
                 value={sortingField}
@@ -189,8 +189,8 @@ const IndexPage: NextPage = () => {
               />
             </label>
 
-            <label>
-              並び替え方向
+            <label className="flex flex-wrap w-min justify-end">
+              <span className="whitespace-nowrap mx-1">並び替え方向</span>
               <Select
                 name="sorting-direction"
                 value={sortingDirection}
