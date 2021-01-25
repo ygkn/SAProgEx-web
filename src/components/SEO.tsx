@@ -6,7 +6,7 @@ const SEO: FC<{ title: string; path: string; description: string }> = ({
   path,
   description,
 }) => {
-  const url = `${path}`;
+  const url = `https://booksearchman.vercel.app/${path}`;
   const fullTitle = `${title && `${title} | `}蔵書検索くん`;
 
   return (
