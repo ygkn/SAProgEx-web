@@ -72,6 +72,8 @@ const IndexPage: NextPage = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    setSubmittedQuery(inputtingQuery);
+
     router.push(
       { query: inputtingQuery !== '' ? { q: inputtingQuery } : undefined },
       undefined,
