@@ -122,7 +122,7 @@ const IndexPage: NextPage = () => {
 
                 <button
                   type="submit"
-                  className="py-1 px-2 mr-3 bg-blue-500 font-bold text-white self-center rounded-full focus:outline-none focus:ring transition-shadow duration-200 glow-blue-500 hover:glow-blue-500-md flex-shrink-0"
+                  className="py-1 px-2 mr-3 bg-blue-600 font-bold text-white self-center rounded-full focus:outline-none focus:ring transition-shadow duration-200 glow-blue-600 hover:glow-blue-600-md flex-shrink-0"
                 >
                   {inputProps.value === '' ? '全て表示' : '検索'}
                 </button>
@@ -168,7 +168,7 @@ const IndexPage: NextPage = () => {
               input:
                 'flex-grow flex-shrink min-w-0 focus:outline-none py-3 px-4 bg-transparent',
               suggestion: 'py-1 px-4 truncate cursor-pointer',
-              suggestionHighlighted: 'bg-blue-500 text-white',
+              suggestionHighlighted: 'bg-blue-600 text-white',
             }}
           />
           <div className="p-3 flex justify-end">
