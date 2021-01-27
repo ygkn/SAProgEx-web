@@ -134,7 +134,7 @@ const IndexPage: NextPage = () => {
               query,
             }) => (
               // eslint-disable-next-line react/jsx-props-no-spreading
-              <div {...containerProps}>
+              <div {...containerProps} aria-label="検索キーワード一覧">
                 {children}
                 {children !== null && (
                   <p className="px-4 py-2 text-gray-800">
@@ -159,6 +159,7 @@ const IndexPage: NextPage = () => {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-expect-error
               ref: searchInputRef,
+              'aria-label': '検索キーワードを入力、無入力で全て表示',
             }}
             theme={{
               container:
