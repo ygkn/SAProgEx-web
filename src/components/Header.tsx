@@ -8,9 +8,11 @@ const Header: FC = () => (
         <Link href="/">
           <a className="flex items-baseline">
             <img
+              width="512"
+              height="512"
               src="mark.svg"
               alt="マーク"
-              className="h-8 mr-1 inline-block"
+              className="h-8 w-8 mr-1 inline-block"
             />
             <span>蔵書検索くん</span>
           </a>
